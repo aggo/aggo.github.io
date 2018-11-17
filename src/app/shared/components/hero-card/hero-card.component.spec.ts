@@ -1,11 +1,11 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {HeroCardComponent} from './hero-card.component';
-import {HeroService} from '../../../modules/heroes/shared/hero.service';
+import {EntriesService} from '../../../modules/entries/shared/hero.service';
 import {APP_CONFIG, AppConfig} from '../../../configs/app.config';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {APP_BASE_HREF} from '@angular/common';
 import {TestsModule} from '../../modules/tests.module';
-import {Hero} from '../../../modules/heroes/shared/hero.model';
+import {TILEntry} from '../../../modules/entries/shared/hero.model';
 import {TranslateModule} from '@ngx-translate/core';
 
 describe('HeroCardComponent', () => {
@@ -24,7 +24,7 @@ describe('HeroCardComponent', () => {
       providers: [
         {provide: APP_CONFIG, useValue: AppConfig},
         {provide: APP_BASE_HREF, useValue: '/'},
-        HeroService
+        EntriesService
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
@@ -43,13 +43,13 @@ describe('HeroCardComponent', () => {
 
   it('should like a hero', () => {
     localStorage.setItem('votes', String(AppConfig.votesLimit - 1));
-    const hero = new Hero({likes: 1});
+    const hero = new TILEntry({likes: 1});
     hero.like();
     expect(hero.likes).toBe(2);
   });
 
   it('should not like a hero', () => {
     localStorage.setItem('votes', String(AppConfig.votesLimit));
-    expect(HeroService.checkIfUserCanVote()).toBe(false);
+    expect(EntriesService.checkIfUserCanVote()).toBe(false);
   });
 });

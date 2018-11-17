@@ -2,7 +2,7 @@ import {TestBed} from '@angular/core/testing';
 import {ProgressBarService} from './progress-bar.service';
 import {TestsModule} from '../../shared/modules/tests.module';
 import {TranslateModule} from '@ngx-translate/core';
-import {HeroService} from '../../modules/heroes/shared/hero.service';
+import {EntriesService} from '../../modules/entries/shared/hero.service';
 import {APP_CONFIG, AppConfig} from '../../configs/app.config';
 
 describe('ProgressBarService', () => {
@@ -18,12 +18,12 @@ describe('ProgressBarService', () => {
       providers: [
         {provide: APP_CONFIG, useValue: AppConfig},
         ProgressBarService,
-        HeroService
+        EntriesService
       ]
     });
 
     progressBarService = TestBed.get(ProgressBarService);
-    heroService = TestBed.get(HeroService);
+    heroService = TestBed.get(EntriesService);
   });
 
   it('should not be requestsRunning', (() => {

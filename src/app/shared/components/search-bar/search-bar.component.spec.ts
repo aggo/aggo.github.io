@@ -5,9 +5,9 @@ import {TranslateModule} from '@ngx-translate/core';
 import {AppRoutingModule} from '../../../app-routing.module';
 import {APP_BASE_HREF} from '@angular/common';
 import {TestsModule} from '../../modules/tests.module';
-import {HeroService} from '../../../modules/heroes/shared/hero.service';
+import {EntriesService} from '../../../modules/entries/shared/hero.service';
 import {Router} from '@angular/router';
-import {Hero} from '../../../modules/heroes/shared/hero.model';
+import {TILEntry} from '../../../modules/entries/shared/hero.model';
 import {HomePageComponent} from '../../pages/home-page/home-page.component';
 import {Error404PageComponent} from '../../pages/error404-page/error404-page.component';
 import {APP_CONFIG, AppConfig} from '../../../configs/app.config';
@@ -39,14 +39,14 @@ describe('HeroSearchComponent', () => {
         },
         {provide: APP_CONFIG, useValue: AppConfig},
         {provide: APP_BASE_HREF, useValue: '/'},
-        HeroService
+        EntriesService
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(SearchBarComponent);
     component = fixture.debugElement.componentInstance;
-    heroService = TestBed.get(HeroService);
+    heroService = TestBed.get(EntriesService);
   }));
 
   it('should create hero search component', (() => {
@@ -55,7 +55,7 @@ describe('HeroSearchComponent', () => {
   }));
 
   it('should get all heroes', fakeAsync(() => {
-    spyOn(heroService, 'getHeroes').and.returnValue(of([new Hero({name: 'test1', default: true})]));
+    spyOn(heroService, 'getHeroes').and.returnValue(of([new TILEntry({name: 'test1', default: true})]));
     fixture.detectChanges();
     tick();
 
@@ -90,7 +90,7 @@ describe('HeroSearchComponent', () => {
 
     const heroId = 'BzTvl77YsRTtdihH0jeh';
     const router = fixture.debugElement.injector.get(Router);
-    component.searchHero(new Hero({id: heroId}));
+    component.searchHero(new TILEntry({id: heroId}));
     expect(router.navigate).toHaveBeenCalledWith(['heroes/' + heroId]);
   }));
 });

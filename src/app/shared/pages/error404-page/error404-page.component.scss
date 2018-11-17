@@ -1,9 +1,10 @@
-@import "mixins";
+//@import "_mixins";
 
-img {
-  @include push--auto();
-  display: block;
-}
+
+//img {
+//  @include push--auto();
+//  display: block;
+//}
 
 .explanation {
   margin: 1rem 0;

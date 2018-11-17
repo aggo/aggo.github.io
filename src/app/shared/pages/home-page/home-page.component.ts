@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Hero} from '../../../modules/heroes/shared/hero.model';
-import {HeroService} from '../../../modules/heroes/shared/hero.service';
 import {AppConfig} from '../../../configs/app.config';
 import {UtilsHelperService} from '../../../core/services/utils-helper.service';
+import { TILEntry } from '../../../modules/entries/shared/entry.model';
+import { EntriesService } from '../../../modules/entries/shared/entries.service';
 
 @Component({
   selector: 'app-home-page',
@@ -12,14 +12,14 @@ import {UtilsHelperService} from '../../../core/services/utils-helper.service';
 })
 
 export class HomePageComponent implements OnInit {
-  heroes: Hero[] = null;
+  entries: TILEntry[] = null;
 
-  constructor(private heroService: HeroService) {
+  constructor(private heroService: EntriesService) {
   }
 
   ngOnInit() {
-    this.heroService.getHeroes().subscribe((heroes: Array<Hero>) => {
-      this.heroes = heroes.slice(0, AppConfig.topHeroesLimit);
+    this.heroService.getHeroes().subscribe((heroes: Array<TILEntry>) => {
+      this.entries = heroes.slice(0, AppConfig.topHeroesLimit);
     });
   }
 }

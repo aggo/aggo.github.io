@@ -1,12 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {Meta, Title} from '@angular/platform-browser';
-import {NavigationEnd, Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material';
-import {_} from '@biesbjerg/ngx-translate-extract/dist/utils/utils';
-import {AppConfig} from './configs/app.config';
-import {LocalStorage} from 'ngx-store';
-import {UtilsHelperService} from './core/services/utils-helper.service';
+import { Component, OnInit } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
+import { NavigationEnd, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
+import { AppConfig } from './configs/app.config';
 
 declare const require;
 declare const Modernizr;
@@ -18,11 +14,9 @@ declare const Modernizr;
 
 export class AppComponent implements OnInit {
 
-  @LocalStorage() language = 'en';
   isOnline: boolean;
 
-  constructor(private translateService: TranslateService,
-              private title: Title,
+  constructor(private title: Title,
               private meta: Meta,
               private snackBar: MatSnackBar,
               private router: Router) {
@@ -30,16 +24,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.translateService.setDefaultLang('en');
-    this.translateService.use(this.language);
-
-    // With this we load the default language in the main bundle (cache busting)
-    this.translateService.setTranslation('en', require('../assets/i18n/en.json'));
-
-    this.title.setTitle('Angular Example App');
-
+    this.title.setTitle('TIL');
     this.onEvents();
-    this.checkBrowser();
   }
 
   onEvents() {
@@ -49,10 +35,10 @@ export class AppComponent implements OnInit {
           case '/':
             this.meta.updateTag({
               name: 'description',
-              content: 'Angular Example app with Angular CLI, Angular Material and more'
+              content: 'My today-I-learned list'
             });
             break;
-          case '/' + AppConfig.routes.heroes:
+          case '/' + AppConfig.routes.entries:
             this.title.setTitle('Heroes list');
             this.meta.updateTag({
               name: 'description',
@@ -62,34 +48,5 @@ export class AppComponent implements OnInit {
         }
       }
     });
-  }
-
-  checkBrowser() {
-    if (UtilsHelperService.isBrowserValid()) {
-      this.checkBrowserFeatures();
-    } else {
-      this.translateService.get([String(_('changeBrowser'))]).subscribe((texts) => {
-        this.snackBar.open(texts['changeBrowser'], 'OK');
-      });
-    }
-  }
-
-  checkBrowserFeatures() {
-    let supported = true;
-    for (const feature in Modernizr) {
-      if (Modernizr.hasOwnProperty(feature) &&
-        typeof Modernizr[feature] === 'boolean' && Modernizr[feature] === false) {
-        supported = false;
-        break;
-      }
-    }
-
-    if (!supported) {
-      this.translateService.get([String(_('updateBrowser'))]).subscribe((texts) => {
-        this.snackBar.open(texts['updateBrowser'], 'OK');
-      });
-    }
-
-    return supported;
   }
 }

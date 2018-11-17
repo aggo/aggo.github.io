@@ -3,7 +3,7 @@ import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {TranslateModule} from '@ngx-translate/core';
 import {MaterialModule} from '../../modules/material.module';
 import {TestsModule} from '../../modules/tests.module';
-import {HeroService} from '../../../modules/heroes/shared/hero.service';
+import {EntriesService} from '../../../modules/entries/shared/hero.service';
 import {ProgressBarService} from '../../../core/services/progress-bar.service';
 import {Error404PageComponent} from './error404-page.component';
 import {APP_CONFIG, AppConfig} from '../../../configs/app.config';
@@ -25,7 +25,7 @@ describe('Error404Page', () => {
       ],
       providers: [
         {provide: APP_CONFIG, useValue: AppConfig},
-        HeroService,
+        EntriesService,
         ProgressBarService
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

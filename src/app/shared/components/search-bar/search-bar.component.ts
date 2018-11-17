@@ -2,10 +2,10 @@ import {map, startWith} from 'rxjs/operators';
 import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
-import {Hero} from '../../../modules/heroes/shared/hero.model';
-import {HeroService} from '../../../modules/heroes/shared/hero.service';
 import {LoggerService} from '../../../core/services/logger.service';
 import {AppConfig} from '../../../configs/app.config';
+import { TILEntry } from '../../../modules/entries/shared/entry.model';
+import { EntriesService } from '../../../modules/entries/shared/entries.service';
 
 @Component({
   selector: 'app-search-bar',
@@ -17,18 +17,18 @@ import {AppConfig} from '../../../configs/app.config';
 
 export class SearchBarComponent implements OnInit {
 
-  defaultHeroes: Array<Hero>;
+  defaultHeroes: Array<TILEntry>;
   heroFormControl: FormControl;
   filteredHeroes: any;
 
-  constructor(private heroService: HeroService,
+  constructor(private heroService: EntriesService,
               private router: Router) {
     this.defaultHeroes = [];
     this.heroFormControl = new FormControl();
   }
 
   ngOnInit() {
-    this.heroService.getHeroes().subscribe((heroes: Array<Hero>) => {
+    this.heroService.getHeroes().subscribe((heroes: Array<TILEntry>) => {
       this.defaultHeroes = heroes.filter(hero => hero['default']);
 
       this.heroFormControl.valueChanges.pipe(
@@ -40,13 +40,13 @@ export class SearchBarComponent implements OnInit {
     });
   }
 
-  filterHeroes(val: string): Hero[] {
-    return val ? this.defaultHeroes.filter(hero => hero.name.toLowerCase().indexOf(val.toLowerCase()) === 0 && hero['default'])
+  filterHeroes(val: string): TILEntry[] {
+    return val ? this.defaultHeroes.filter(hero => hero.content.toLowerCase().indexOf(val.toLowerCase()) === 0 && hero['default'])
       : this.defaultHeroes;
   }
 
-  searchHero(hero: Hero): Promise<boolean> {
+  searchHero(hero: TILEntry): Promise<boolean> {
     LoggerService.log('Moved to hero with id: ' + hero.id);
-    return this.router.navigate([AppConfig.routes.heroes + '/' + hero.id]);
+    return this.router.navigate([AppConfig.routes.entries + '/' + hero.id]);
   }
 }

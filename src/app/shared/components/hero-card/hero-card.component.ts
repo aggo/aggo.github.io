@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AppConfig} from '../../../configs/app.config';
-import {HeroService} from '../../../modules/heroes/shared/hero.service';
-import {Hero} from '../../../modules/heroes/shared/hero.model';
 import {Router} from '@angular/router';
+import { TILEntry } from '../../../modules/entries/shared/entry.model';
+import { EntriesService } from '../../../modules/entries/shared/entries.service';
 
 @Component({
   selector: 'app-hero-card',
@@ -11,19 +11,19 @@ import {Router} from '@angular/router';
 })
 export class HeroCardComponent implements OnInit {
 
-  @Input() hero: Hero;
+  @Input() hero: TILEntry;
 
   canVote: boolean;
 
-  constructor(private heroService: HeroService,
+  constructor(private heroService: EntriesService,
               private router: Router) {
-    this.canVote = HeroService.checkIfUserCanVote();
+    this.canVote = EntriesService.checkIfUserCanVote();
   }
 
   ngOnInit() {
   }
 
-  like(hero: Hero): Promise<void> {
+  like(hero: TILEntry): Promise<void> {
     if (this.canVote) {
       hero.like();
       return this.heroService.updateHero(hero);
@@ -32,7 +32,7 @@ export class HeroCardComponent implements OnInit {
 
   seeHeroDetails(hero): void {
     if (hero.default) {
-      this.router.navigate([AppConfig.routes.heroes + '/' + hero.id]);
+      this.router.navigate([AppConfig.routes.entries + '/' + hero.id]);
     }
   }
 
